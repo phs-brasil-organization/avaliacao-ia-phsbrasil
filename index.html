@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avaliação de Segurança para IA | PHS Brasil</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<!--
+╔══════════════════════════════════════════════════════════════════╗
+║  CONFIGURAÇÃO EMAILJS — LEIA ANTES DE PUBLICAR                   ║
+║                                                                  ║
+║  1. Acesse https://www.emailjs.com e crie uma conta gratuita     ║
+║  2. Em "Email Services" → Add Service → conecte o e-mail         ║
+║     comercial@phsbrasil.com.br                                   ║
+║  3. Em "Email Templates" → Create Template com estas variáveis:  ║
+║     {{nome}} {{empresa}} {{email}} {{cargo}} {{tel}}             ║
+║     {{nivel}} {{pontuacao}} {{breakdown}} {{recomendacoes}}      ║
+║     {{data}} {{to_email}}                                        ║
+║     Crie 2 templates: um para o lead, outro para a PHS Brasil    ║
+║  4. Substitua os 4 valores AQUI_... abaixo pelos IDs reais       ║
+║  5. Plano gratuito: 200 envios/mês                               ║
+╚══════════════════════════════════════════════════════════════════╝
+-->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<!-- original
+<script>
+  const EJ_PUBLIC_KEY    = 'AQUI_SUA_PUBLIC_KEY';
+  const EJ_SERVICE_ID    = 'AQUI_SEU_SERVICE_ID';
+  const EJ_TPL_LEAD      = 'AQUI_TEMPLATE_PARA_O_LEAD';
+  const EJ_TPL_PHS       = 'AQUI_TEMPLATE_PARA_PHS_BRASIL';
+  const EJ_READY = !EJ_PUBLIC_KEY.includes('AQUI');
+  if (EJ_READY) emailjs.init({ publicKey: EJ_PUBLIC_KEY });
+</script>
+-->
+
+<script>
+  const EJ_PUBLIC_KEY    = 'UvZ2Z6tKmUgKiH5su';
+  const EJ_SERVICE_ID    = 'service_umdr7pp';
+  const EJ_TPL_LEAD      = 'template_fju7ll4';
+  const EJ_TPL_PHS       = 'template_5l0o5vg';
+  const EJ_READY = !EJ_PUBLIC_KEY.includes('AQUI');
+  if (EJ_READY) emailjs.init({ publicKey: EJ_PUBLIC_KEY });
+</script>
+
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --dark:    #141F29;  --dark2:   #0B1217;  --dark3:   #203342;
+  --blue:    #316C9E;  --orange:  #FF9700;  --red:     #A30000;
+  --olive:   #7B851C;  --muted:   #5A6478;  --border:  #E2E4E8;
+  --bg:      #F2F3F5;  --surface: #FFFFFF;
+  --r:8px;  --rl:14px;
+  --sh: 0 2px 12px rgba(20,31,41,.08),0 0 1px rgba(20,31,41,.05);
+  --shl:0 8px 40px rgba(20,31,41,.14),0 0 1px rgba(20,31,41,.06);
+}
+body { font-family:'Ubuntu',sans-serif; background:var(--bg); color:var(--dark); min-height:100vh; line-height:1.6; }
+
+/* HEADER */
+.hdr { background:var(--dark); position:relative; overflow:hidden; }
+.hdr::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,var(--dark2),var(--dark),var(--dark3)); }
+.hdr::after  { content:''; position:absolute; right:-80px; top:-80px; width:380px; height:380px; border-radius:50%; background:radial-gradient(circle,rgba(49,108,158,.16) 0%,transparent 68%); }
+.hdr-inner { max-width:900px; margin:0 auto; padding:34px 32px 38px; position:relative; z-index:1; }
+.hdr-accent { height:3px; background:linear-gradient(90deg,var(--orange),var(--blue) 55%,transparent); }
+
+.logo-row { display:flex; align-items:center; gap:15px; margin-bottom:28px; }
+.phs-wave { width:52px; height:33px; flex-shrink:0; }
+.phs-brand { font-family:'Poppins',sans-serif; font-size:18px; font-weight:800; color:#fff; letter-spacing:.05em; line-height:1; }
+.phs-tagline { font-size:8.5px; color:rgba(255,255,255,.45); letter-spacing:.14em; text-transform:uppercase; margin-top:3px; }
+.logo-sep { width:1px; height:34px; background:rgba(255,255,255,.16); margin:0 4px; }
+.ms-wrap { display:flex; align-items:center; gap:8px; }
+.ms-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; width:17px; height:17px; }
+.ms-sq { width:7.5px; height:7.5px; }
+.ms-sq:nth-child(1){background:#F25022;} .ms-sq:nth-child(2){background:#7FBA00;}
+.ms-sq:nth-child(3){background:#00A4EF;} .ms-sq:nth-child(4){background:#FFB900;}
+.ms-text { font-family:'Poppins',sans-serif; font-size:10px; font-weight:600; color:rgba(255,255,255,.78); line-height:1.35; }
+.ms-text span { display:block; font-size:8.5px; font-weight:400; color:rgba(255,255,255,.42); }
+
+.hdr-tag { display:inline-flex; align-items:center; gap:5px; background:rgba(255,151,0,.12); border:1px solid rgba(255,151,0,.26); color:var(--orange); font-size:11px; font-weight:600; padding:4px 12px; border-radius:99px; letter-spacing:.06em; text-transform:uppercase; margin-bottom:12px; font-family:'Poppins',sans-serif; }
+.hdr h1 { font-family:'Poppins',sans-serif; font-size:clamp(20px,3.2vw,32px); font-weight:800; color:#fff; line-height:1.18; margin-bottom:11px; }
+.hdr h1 em { color:var(--orange); font-style:normal; }
+.hdr p { font-size:14.5px; color:rgba(255,255,255,.62); max-width:520px; font-weight:300; line-height:1.72; }
+
+/* PROGRESS */
+.prog-wrap { background:var(--surface); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:100; box-shadow:0 2px 10px rgba(20,31,41,.07); }
+.prog-inner { max-width:900px; margin:0 auto; padding:12px 32px; display:flex; align-items:center; gap:13px; }
+.prog-lbl { font-size:12px; color:var(--muted); font-weight:500; white-space:nowrap; font-family:'Poppins',sans-serif; }
+.prog-bar { flex:1; height:5px; background:var(--border); border-radius:99px; overflow:hidden; }
+.prog-fill { height:100%; background:linear-gradient(90deg,var(--blue),var(--orange)); border-radius:99px; transition:width .5s cubic-bezier(.4,0,.2,1); }
+.prog-pct { font-size:12px; font-weight:700; color:var(--blue); min-width:36px; text-align:right; font-family:'Poppins',sans-serif; }
+
+/* MAIN */
+.main { max-width:900px; margin:0 auto; padding:26px 32px 80px; }
+
+/* PILLS */
+.pills { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+.pill { display:flex; align-items:center; gap:5px; padding:6px 13px; border-radius:99px; background:var(--surface); border:1.5px solid var(--border); font-size:12px; font-weight:500; color:var(--muted); font-family:'Poppins',sans-serif; transition:all .17s; }
+.pill.done { border-color:var(--olive); background:rgba(123,133,28,.07); color:var(--olive); }
+.pill.cur  { border-color:var(--blue);  background:rgba(49,108,158,.07); color:var(--blue); }
+
+/* CARD */
+.card { background:var(--surface); border-radius:var(--rl); box-shadow:var(--sh); overflow:hidden; border:1px solid var(--border); }
+.card + .card, .card + div { margin-top:18px; }
+
+/* SECTION */
+.sec-card { display:none; animation:up .3s ease; }
+.sec-card.on { display:block; }
+@keyframes up { from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);} }
+
+.sec-hd { padding:16px 26px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px; background:var(--dark); position:relative; overflow:hidden; }
+.sec-hd::after { content:''; position:absolute; right:-22px; top:-22px; width:100px; height:100px; border-radius:50%; background:rgba(255,255,255,.04); }
+.sec-ico { width:35px; height:35px; border-radius:var(--r); display:flex; align-items:center; justify-content:center; font-size:16px; background:rgba(255,255,255,.08); flex-shrink:0; }
+.sec-title { font-family:'Poppins',sans-serif; font-size:14.5px; font-weight:700; color:#fff; }
+.sec-sub { font-size:11.5px; color:rgba(255,255,255,.48); margin-top:2px; }
+.sec-n { margin-left:auto; font-family:'Poppins',sans-serif; font-size:11px; font-weight:600; color:var(--orange); background:rgba(255,151,0,.12); border:1px solid rgba(255,151,0,.24); padding:3px 10px; border-radius:99px; white-space:nowrap; position:relative; z-index:1; }
+
+/* QUESTION */
+.qb { padding:19px 26px; border-bottom:1px solid var(--border); }
+.qb:last-of-type { border-bottom:none; }
+.qn { font-size:10px; font-weight:700; color:var(--blue); letter-spacing:.1em; text-transform:uppercase; font-family:'Poppins',sans-serif; margin-bottom:6px; }
+.qt { font-size:14px; font-weight:500; margin-bottom:13px; line-height:1.55; }
+.opts { display:flex; flex-direction:column; gap:7px; }
+.opt { display:flex; align-items:flex-start; gap:10px; padding:10px 14px; border:1.5px solid var(--border); border-radius:var(--r); cursor:pointer; transition:all .15s; }
+.opt:hover { border-color:var(--blue); background:rgba(49,108,158,.04); }
+.opt.sel  { border-color:var(--blue); background:rgba(49,108,158,.06); }
+.opt.sel .dot { background:var(--blue); border-color:var(--blue); }
+.opt.sel .dot::after { opacity:1; }
+.dot { width:16px; height:16px; border-radius:50%; border:2px solid #C8C6C4; flex-shrink:0; margin-top:2px; position:relative; transition:all .15s; }
+.dot::after { content:''; position:absolute; inset:3px; border-radius:50%; background:#fff; opacity:0; transition:opacity .15s; }
+.ot { font-size:13px; line-height:1.5; }
+
+/* NAV */
+.nav { display:flex; justify-content:space-between; align-items:center; padding:16px 26px; border-top:1px solid var(--border); background:#FAFBFC; }
+.btn { font-family:'Poppins',sans-serif; font-size:13px; font-weight:600; padding:9px 20px; border-radius:var(--r); cursor:pointer; border:none; transition:all .17s; display:flex; align-items:center; gap:6px; }
+.btn-p { background:var(--blue); color:#fff; }
+.btn-p:hover { background:#265d8a; transform:translateY(-1px); box-shadow:0 4px 14px rgba(49,108,158,.3); }
+.btn-g { background:transparent; color:var(--muted); border:1.5px solid var(--border); }
+.btn-g:hover { border-color:var(--blue); color:var(--blue); }
+.btn:disabled { opacity:.35; cursor:not-allowed; transform:none!important; box-shadow:none!important; }
+
+/* INTRO */
+.intro-body { padding:28px 32px; }
+.intro-body h2 { font-family:'Poppins',sans-serif; font-size:20px; font-weight:800; color:var(--dark); margin-bottom:10px; }
+.intro-body p { font-size:14px; color:var(--muted); line-height:1.75; margin-bottom:12px; }
+.intro-body strong { color:var(--dark); font-weight:600; }
+.sec-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:9px; margin:18px 0; }
+.si { padding:13px; border-radius:var(--r); border:1.5px solid var(--border); text-align:center; transition:border-color .17s; }
+.si:hover { border-color:var(--blue); }
+.si-i { font-size:20px; margin-bottom:5px; }
+.si-n { font-size:11.5px; font-weight:600; color:var(--dark); font-family:'Poppins',sans-serif; }
+.si-c { font-size:11px; color:var(--muted); margin-top:1px; }
+.intro-foot { padding:16px 32px; border-top:1px solid var(--border); background:#FAFBFC; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+.meta-row { font-size:12px; color:var(--muted); display:flex; gap:16px; font-family:'Poppins',sans-serif; }
+
+/* LEAD FORM */
+.lead-hd { padding:22px 28px; background:var(--dark); position:relative; overflow:hidden; }
+.lead-hd::after { content:''; position:absolute; right:-30px; top:-30px; width:130px; height:130px; border-radius:50%; background:rgba(255,151,0,.08); }
+.lead-hd h2 { font-family:'Poppins',sans-serif; font-size:16px; font-weight:800; color:#fff; margin-bottom:5px; position:relative; z-index:1; }
+.lead-hd p { font-size:13px; color:rgba(255,255,255,.55); font-weight:300; position:relative; z-index:1; }
+.lead-body { padding:24px 28px; }
+.fgrid { display:grid; grid-template-columns:1fr 1fr; gap:13px; }
+.fgrid .full { grid-column:1/-1; }
+.fg { display:flex; flex-direction:column; gap:5px; }
+.fg label { font-size:12px; font-weight:600; font-family:'Poppins',sans-serif; }
+.fg input { padding:10px 13px; border:1.5px solid var(--border); border-radius:var(--r); font-size:13px; font-family:'Ubuntu',sans-serif; color:var(--dark); outline:none; transition:border-color .15s; background:#FAFBFC; }
+.fg input:focus { border-color:var(--blue); background:#fff; }
+.fg input::placeholder { color:#AFAEAD; }
+.lead-foot { padding:16px 28px; border-top:1px solid var(--border); background:#FAFBFC; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+.lead-note { font-size:12px; color:var(--muted); display:flex; align-items:center; gap:5px; }
+
+/* RESULT */
+.res-top { background:var(--dark); padding:28px 32px; position:relative; overflow:hidden; }
+.res-top::after { content:''; position:absolute; right:-50px; top:-50px; width:250px; height:250px; border-radius:50%; background:radial-gradient(circle,rgba(49,108,158,.17) 0%,transparent 68%); }
+.badge-row { display:flex; align-items:center; gap:17px; flex-wrap:wrap; position:relative; z-index:1; }
+.badge { width:82px; height:82px; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; border:3px solid currentColor; flex-shrink:0; font-family:'Poppins',sans-serif; }
+.badge-num { font-size:23px; font-weight:800; line-height:1; }
+.badge-lbl { font-size:9px; opacity:.7; }
+.r-level { font-family:'Poppins',sans-serif; font-size:22px; font-weight:800; margin-bottom:5px; }
+.r-who   { font-size:12px; color:rgba(255,255,255,.48); font-family:'Poppins',sans-serif; margin-bottom:5px; }
+.r-desc  { font-size:14px; color:rgba(255,255,255,.62); font-weight:300; line-height:1.65; max-width:460px; }
+.breakdown { padding:24px 32px; }
+.bd-title { font-family:'Poppins',sans-serif; font-size:11px; font-weight:700; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; margin-bottom:14px; }
+.bd { margin-bottom:11px; }
+.bd-row { display:flex; justify-content:space-between; margin-bottom:5px; }
+.bd-n { font-size:13px; font-weight:500; display:flex; align-items:center; gap:6px; }
+.bd-p { font-size:12px; font-weight:700; color:var(--muted); font-family:'Poppins',sans-serif; }
+.bd-bar { height:7px; background:var(--border); border-radius:99px; overflow:hidden; }
+.bd-fill { height:100%; border-radius:99px; transition:width 1.1s cubic-bezier(.4,0,.2,1); }
+.res-actions { padding:16px 32px; border-top:1px solid var(--border); background:#FAFBFC; display:flex; gap:10px; flex-wrap:wrap; }
+.btn-pdf { font-family:'Poppins',sans-serif; font-size:13px; font-weight:600; padding:9px 20px; border-radius:var(--r); cursor:pointer; border:1.5px solid var(--border); background:var(--surface); color:var(--dark); display:flex; align-items:center; gap:7px; transition:all .17s; }
+.btn-pdf:hover { border-color:var(--blue); color:var(--blue); }
+
+/* RECS */
+.recs-hd { padding:15px 24px; border-bottom:1px solid var(--border); background:#FAFBFC; }
+.recs-hd h3 { font-family:'Poppins',sans-serif; font-size:14px; font-weight:700; }
+.rec { display:flex; gap:13px; align-items:flex-start; padding:14px 24px; border-bottom:1px solid var(--border); }
+.rec:last-child { border-bottom:none; }
+.rec-i { font-size:16px; flex-shrink:0; margin-top:2px; }
+.rec-cat { font-size:10px; font-weight:700; color:var(--blue); text-transform:uppercase; letter-spacing:.08em; font-family:'Poppins',sans-serif; margin-bottom:3px; }
+.rec-txt { font-size:13px; line-height:1.6; }
+
+/* CTA */
+.cta { background:var(--dark); border-radius:var(--rl); padding:36px 32px; text-align:center; position:relative; overflow:hidden; margin-top:18px; }
+.cta::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,var(--dark2),var(--dark3)); }
+.cta::after  { content:''; position:absolute; right:-50px; top:-50px; width:230px; height:230px; border-radius:50%; background:radial-gradient(circle,rgba(255,151,0,.09) 0%,transparent 65%); }
+.cta-in { position:relative; z-index:1; }
+.cta-in h3 { font-family:'Poppins',sans-serif; font-size:20px; font-weight:800; color:#fff; margin-bottom:8px; }
+.cta-in p  { font-size:14px; color:rgba(255,255,255,.6); margin-bottom:22px; font-weight:300; line-height:1.7; }
+.btn-wa { display:inline-flex; align-items:center; gap:9px; background:#25D366; color:#fff; font-family:'Poppins',sans-serif; font-size:14px; font-weight:700; padding:13px 28px; border-radius:var(--r); text-decoration:none; border:none; cursor:pointer; transition:all .2s; box-shadow:0 4px 14px rgba(37,211,102,.26); }
+.btn-wa:hover { background:#1ebe5d; transform:translateY(-2px); box-shadow:0 8px 22px rgba(37,211,102,.36); }
+.cta-contacts { display:flex; justify-content:center; gap:22px; margin-top:16px; flex-wrap:wrap; }
+.cta-contacts span { font-size:12px; color:rgba(255,255,255,.4); }
+
+/* TOAST */
+.toast { position:fixed; bottom:20px; right:20px; background:var(--dark); color:#fff; padding:11px 17px; border-radius:var(--r); font-size:13px; font-family:'Poppins',sans-serif; font-weight:500; box-shadow:var(--shl); z-index:9999; display:none; align-items:center; gap:7px; border-left:3px solid var(--orange); animation:toastIn .28s ease; }
+.toast.on { display:flex; }
+@keyframes toastIn { from{opacity:0;transform:translateX(16px);}to{opacity:1;transform:translateX(0);} }
+
+@media(max-width:600px){
+  .hdr-inner,.main{padding-left:16px;padding-right:16px;}
+  .prog-inner{padding-left:16px;padding-right:16px;}
+  .sec-hd,.qb,.nav,.intro-body,.intro-foot,.lead-hd,.lead-body,.lead-foot,.breakdown,.res-top,.res-actions,.recs-hd,.rec,.cta{padding-left:16px;padding-right:16px;}
+  .fgrid{grid-template-columns:1fr;}
+  .logo-sep,.ms-wrap{display:none;}
+}
+</style>
+
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:_dlc_DocId msdt:dt="string">2H3AAYFWW36D-447116719-53414</mso:_dlc_DocId>
+<mso:_dlc_DocIdItemGuid msdt:dt="string">799e7655-ab3b-4160-a8f8-d4da3d202385</mso:_dlc_DocIdItemGuid>
+<mso:_dlc_DocIdUrl msdt:dt="string">https://phsbrasilconsultoria.sharepoint.com/marketing/_layouts/15/DocIdRedir.aspx?ID=2H3AAYFWW36D-447116719-53414, 2H3AAYFWW36D-447116719-53414</mso:_dlc_DocIdUrl>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-inner">
+    <div class="logo-row">
+      <img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCADwAPADASIAAhEBAxEB/8QAHQABAAIDAAMBAAAAAAAAAAAAAAcIBAUGAQIDCf/EAFQQAAEDAwIDBAQHCgsGBAcAAAECAwQABQYHERIhMQgTQVEiMmFxFBVCYoGRoQkWGCNScnWUotM3OENUVoKSlbGz0SRVdrTBwxcldJMzV2OEssLh/8QAGwEBAAIDAQEAAAAAAAAAAAAAAAQFAQMGBwL/xAA7EQACAQICBwUGBAQHAAAAAAAAAQIDBAURBhIhMUFhcSJRgaHBBxMykbHRFCNS8BUWQuEXM0RicpLS/9oADAMBAAIRAxEAPwCmVKUoBSlKAUpSgFKUoBSlKAUpSgFKUoBSlKAUpSgFKUoBSlKAUpSgFKUoBSlKAUpSgFKUoBSlKAUpSgFKUoBSlKAUpSgFKUoBSlKAUpSgFKUoBSlKAUpSgFKUoBSlKAUpSgFKUoBSlKAUpSgFKUoBSlKAUpSgFKUoBSlTPo12eMtzuEnIby81iuKJT3i7pcBwlxHm0gkcQ+cSE+RPShlJt5IhpCVLWlCElSlHZKQNyT5VMGnvZr1YzBlEwWJNit6hxfC7wsx07efBsXCNvHh29tThaL1pVpM38F0wxlu9XpA4V5Bdk8a+LxLY2BA/NCB+dXH5dnOWZW6pV9vcqS2TuGArgZT7kJ2T9O29V9bEqVPZHazr8N0LvrtKdb8uPPf8vu0fSH2dNKbAB9/GsAlPj/4kayRwopPlx/jPtSK2TWHdlu3DgVaszvO3y1P8O/1Kb/wrhqVAlilV7kkdZQ0Ew+C/MlKT6penqd2vHuy1IHB95+Xw9/lplk7fW8f8Kw5OjXZ2vgIsuoGR4/JX6qbgyHWk/sJ+1dcgAT0BNe4adPRtX1V9U766l8Mc/D7Gu70RwWmsp1HB85L1MnIeyXmBiOT8EybHszhp6CLISy8foUSgf26g7LsUybEbibdk9iuFok8+FEphSOMDxSTyUPaCRU426Tc7bKTLt0iXDkI9V1hxSFj3Ec6ka1ax3d62mx57ZrfmFmc5OMXBhPeAeYVsQSPMgn2ipsL2S/zYOPgczdaJJ7bGvGpyzSf1afkUupVsci0F031IZcn6Q38WK8kFasfuqzwKPUhtfNQ+grHT1arbneGZRg18XZsrssq1zE7lKXU+i4n8pCx6K0+1JIqdCcZrOLzRylxbVrao6daLjJcGaClKV9GgUpSgFKUoBSlKAUrKtdvn3Sa3BtkGTOlOHZtiO0pxxZ9iUgk1L2H9l/WTI0IeVjaLNHX0dushLBHvbG7g+lNAQvSrW2rsY3IJH3wak2OAv5SYsZUjb3cSm/8ACt212PMPQnZ/VGUtXm3bEpH/AOZqDVxOypPKpWinzkl6m2NCrLdFvwKb0q4cnscY06k/AtVlNK8O/tQUP81Nc7d+xllwSpWPZrjV126JdLjCle7YLG/vNfdG/ta7ypVYy6NP6MxKjUh8UWvAq9SpWy/s7axYylbkvCps1hPPvbapMsEefC2SoD3pFRdLjyIklcaUw7HfbPCtt1BSpJ8iDzFSzWfKtpiuPXvKr7GsePWyRcrjJVwtMMJ3UfMnwAHUk7ADmTXVaLaT5VqrkPxdYY4ZhMEGdcXgQxFR5k+Kj4JHM+wAkWZTfMN0bsL2I6UNty7s6ngumSOpC3HVDqGz02B6beiPDiJKq01q8KMdabLHDcLucSre6oRz73wXVmnw3SXT7RaMxetSFRsrzMpDsayMkKjRD1Bc3Gyj7VDb8lJ24q1eoeoOSZxM7y7y+CIg7sQmN0sNeWyfE+07n6OVcvLkSJclyVKfcffdUVuOOKKlLUepJPMmvRCFLVshJJqhr3VW6lqRWzuR61hWj9jgtP31RpyW+UtiXTPYl58zxXshC1nZCSay2YaRzcO58h0rKSkJGyQAPZVxZaN1avarvVXdx/scvjftLtLZunYR95LveyP3fku5mE3CUebitvYKyER2UfIBPt519q+kWPIlyER4rDr7yzshttBUpR9gHM109vhFnbrswTfe9p5hiWl+MYi2qlZpPhHsry2vxbPkAANgNq81IWPaN57eEpcVak21lX8pOcDe3vTzWP7NZU3AMCx8lOXawYzbn0evGZeQtz6isK/ZqTK6o09jkUcbSvV26r8f7kZ0rt3rp2ZYJ4JeqN2lLHURYLpB+kMKH218/vp7LRPD9++Tj53wNz9xWr+IUTcsNr93mcW3s26h1A4XEKC0rSSlQI6EEc6kq16gWrJLD96Wq1pRktlUNkSHU7yY56caVjZW48wQrrzPStezO7NM/wBGDqtcI6j0+FwnUgfSWUj7a2UXBdOryQMb1nxeW6r1WHnm0L+rvOL9mo03Y1Hm1k+/LL6epPjWxOEPduTlFcG80ume7wyIs1K7ME8QX8l0lvDWYWPmsw0qAnMDrw8PIOEDw2Sr5pqusqO/FkuRpTLjD7SihxtxJSpChyIIPMEeVXzt+lGp+LzEXfFp8OS4BuhyDMADifIhwJSoew7ivbPsDseq8X4JqRi8rD8uCOCNkUeKQw8ocgl0+qodOSj+apO+1RKtsltpyzXmb6NzJ7KsdV+RQWldjq7pxkmmGXOY5kjLYcKO9jSGVcTUlokgLQevUEEHYgiuOqITBSlTj2fezvf9R0IyC+POY/iKDuqa4nZ2UAeaWEnr5cZ5b9AogisSkopyk8kglmRPh2LZFmF7asuMWeXdZ7nMNR0b8I/KUeiU+alEAedWs007JFmtLTNy1WvpffIChZrYvYe5x3qfcnhHko1YjB8Pt2HWAWHT7HEWiBy72U4Nn5KtvXWtXpKPXnz28OHpXreI9ns6ivJMvsVqUfSUZc1CD7zxlNchiWPX886eFWzqP9bWUfDPLW655dSyoWlFdq4mlyW/+xjY63j2IQPi7CMZtlijbbKUyyO8c26FSuqj7VFR9teZc+bLJ+EynXAfAq5fV0rRTM60hikpd1YxxR/+k+h0fsqNfe15Bgt82Rj2pmJzn1eqwuUhtZ/q8ZV+zXCX+A6W4k27nNru14pfJPItad7h1uuwvJ5/czaUudpzCAjvE2Bi4M7b8cOYFbj2JKQT9ArmXsuZiSDHuVrnw3h6yFo2UPoOxqjqaEY7TWbt2+ji/ozEtJcNg8p1NXrGS82sjpqVpYmUWSQQBMDSj4OpKft6fbW3ZdaeQHGXEOIPRSVAg1Q3eHXdk8rilKHVNfUs7a+trpZ0Kil0aZsIl2uUTbuJjyQPklXEPqPKvhksfF8wi/BM2xK03tvh4Q66wO9QPmr9ZJ/NIr40qbYaRYnYNe4rSS7m818nmhWsqFb44oi/VmdcMbxhGF4LjS8dwxhOy1xvSXJJ9YuKBJAPjxHdXiT0qFKtLkuQWuwQy/cXwCoHgaTzW57AP+vSoDyafEu15cnxbXGt6Vcghkbb+0+G/uAr1rROtimkf5lelqwX9e5Pkk9/hs78iV/N1ho/bfh1TznwS4vvk+HXbyWRz7ERSvSc9EeXjWahCUJ4UgAV7Ur1uxw2hZRyprb38TyvHdJr/Gp53Eso8IrZFeHF83tFZVottwu89uBbIb8yU4dkNMoKlH6vD212eC6bTLzbV5FkM1nHcZjp7x64S1BAUgdSji2G3zjy8t+lcvqL2krFiMB/F9D7WiOk+hIyGW1xOvEeLaVDn7CsbddkDka+ri+hS2LayttrCdbtS2I7mZg+Haf2tu86vZZGtQWnjZtUVfeSXvZsncnnyPCCB+UKj7KO1bFsjDtr0hwiBY4xHD8YXBAdkuDz4QdgfzlL91Vpvt3ul9ur91vVxlXGfIVxOyJLpccWfaTzrBqnq3FSr8TLujbUqK7KOwzfU/UHNVrOT5ddrg2vrHU+UMfQ0jZA+gVx9KVoJApSlAKUpQG1sGS5Fj7wesN+ulqcB34oUtxk7/1SKlXEe1FrLjxQheSN3lhP8jdIyXd/escLh/tVCtKAkPXDV3JtXbxAuGRx7bFEBlTMdiC0pCEhRBUSVKUok7Dx25dOu8eUpQHe9n4YOdXLEdRFtpx0OqU/3oJaKwhXdhzb5HHw7+Hny3q3etnarwzEm27Vp9GhZNcmmwlt9JIgRABsAOHbjO3gjYbfK8KjHNexzeIOGxrliWTMX68iOH37eptLQfBAJLC+LY7Ejbi2336g7A1futvn2q4v266QpEKbHWUPR5DZbcbUPBSTzBrDipbGZ2o7zPdcNUs1dc+OcwuLcZZP+yQnPgzAHkUN7cQ/O3PtqOlKUpRUolSidySeZNeKVkwKUpQHT4bqFnGHOJXjGVXe1pSd+6Ykq7o+9s+gr6QanPD+13kJZbt2o+L2nK4PRT6G0sSB5q22KCfYEp99VwtNtuN3uDVutUCVPmPHhajxmlOOLPkEpBJqwmn/AGW7omC3kOrN8jYZZBsoxy4lcx4deEDmlBI/OV82sNqO1mVSdV6iWefDfn4E24W/pbq2hw6dX923XdDZdcs9xQUrSPHbruOY3KVLA9laa7Q7ti18dtsl0xZrQClJaeB3Seh5HofbWA/qHjWD2N3F9G7A3ZIa/RkXV1PFLkkfK3VufPYqJ235BNRqh+fInLmqkvLkrUVrfWslSlHqSTzJqHK/jWl7iMPeJ71+95ZVPZrH8NK9r1VbNbVn389qy8NvLgThas1mMbIuDSZKPFafRWP+h+yvllWpsOPG7mxIMiSoc3HE7Ia+j5R+z39KiuRcZkhhLTzo2A2Vwjbi99Yta/8ADvBK1xG5qUcmtuqnlF9Vu8Fku/M5G2x7FLenKhKtrLcnvfVN5PbzWfQyLjOl3GWuXOkOSH1n0lrO5/8A4PZWPSt5ieLXTI5PBDb7uOk7OyF+oj/U+wfZXY3Fza4bbOpVkqdOC6JLuXol0RX06VW5q6sE5SfzNREjSJclEaKyt55w7IQhO5Jqa9JtPbLbZzVxzFgS3RsWo49Jlo+ax8s+zp7D4bbE8WteORuGI33khQ2ckLHpq9nsHsH21va8N0i9qlzVrqGFrVpp72tsvDgvPmtx3uF6KUqcNe62yfBbl935FfO27iusNxlrvzs0XvA2D3kVm1oKW4SR0LzQJJUBv+M3I6+pvw1Uiv1HtV0l21wmOvdCvXbVzSr3ion1d7OOE6jd9dsMWxieSr3UuMU7QpSvzR6hPmgee6SeddBo/ppZYrlSqfl1e57n0fo9vUzeYXVt+1HbH97yiFK6jUbAMu09vRtOW2WRbniT3TihxNPgfKbWPRUPceXjsa5euyKwUpSgFKUoBSlKAUpVh+zT2bbnqAWMmzASbPim4LQA4JFwPgGwR6KPn7c+id+ZGJSUVmwlmV4pUx9rvAMQ041SbsGHyHlR129uRJjOvd6qM6pShw8R580hKtjufS8iKhysgth2VNY2Lvaoelea3h63yWVAYzfAvZyK50SwpXinnskHkQSg/J2knUmTj1znnGNdMFYuEtlPDHvluT3b6m/BaSOElPiQDtvyKNxtVBqtTohrnYsrsEbTjWZ8lDYDdqyJavxkc9Al5R+gcZ5Hlx/lV9w1M8p7uW8SnOK7OT5Pd914eJ4uXZt0zv6y9gur8eJxepCvbKUue7i3Qf2DWqX2Oc+WrihZfhEhrwWZz4+wMn/Guy1H06vOHvhyU2mdandjGuDA3acB6b/knbwPXwJriVRGT0BHuNb5WFdrWpNSXivufVG/wyT1bjXpvopr55xfkzKj9kW5xCFZNqfhtqbHrKbeU4R9C+7/AMa3dt0e7PGJkO5Hmd4zKS31jW9vuWXPpT/0dFcx8Cb/ACl17JiMjrxH3mo7scQlsUYrq8y0p3ejVLtVK1SfJRS+r9SSEatWrFoDls0swe0YtHWOFUotJckODwJPifziuo8vd1vuRzzPvNwlT5Cv5R9wnYeQHQD2DlXhDTaPVQBX0r7p6PzqvO5qZ8l+/Q2z08tbGLhhNqov9Utr+S/9ZcjGaiITzWeI/ZWQAANgNhXmveOy9IfQxHacedWeFCEJKlKPkAOtX1tZ0LWOrSjl++84bE8YvsVqe8u6jk+HcuiWxeB6V97fCl3CY1DgRnpUl08LbTSCpSj7AKkOz6UyIdqOQ6gXiHiNjb5rcmOJS6r2BJOySfI+l801xmbdpLF8Mhv2LRKxID6klt3Ibi1xOL9raFcz5jj2A/IrXXv6dPZHazXb4fUqbZbEbafg93sMpDWRwXYji0haGyQQofnDkfaAeVbK2TJFsdS5BdLBTy2T0I8iOhFcRo72nnHWPvV1laXfbM8slu6hveTEJPVQT66Rv1HpAb+sNgJhyDCh8UN5LiNwZyHHZCe8alRVBakJ+cB126EjpsdwKqq1SN3F06yTT4PavkV2J4ddW0/f0ZNpbVlvXy+pssfy+LM4WLhwxX+gXv8Ai1fT4fT9ddRUKVubFklwtXC2Fd/GH8k4en5p8P8AD2V5XpD7NqdXOthj1X+h7vB8Oj2c0dFgmnk6eVLEFmv1Lf4rj1W3kyUqDkdxWosuRW26BKG3e6fP8k5yO/s8D9FbevIr2xubGq6NzBwkuD/e3qj0u1vKF5TVWhNSi+KMyfIt98szliyy0xL7anRstiU2FkeRBPiPA9R4EVAGpXZHs14Lty0rv6Yjp3V8T3NZKR7G3eah7lBXtUKnOvKSUkKSSCOhFdXgunWIYclTq/mQXB710l98yJdYTRrbY9l8vsfnjn2m2dYHJUzleMXG2oCuEPqb4mFn5rqd0K+g1yVfqfGv9wbZVHfU3MYUOFTchPGFDxB8T9NchkOmujOTqU5e9OLew8rmp23ExlE+f4oo3Pv3r0ex0+wi5S95J033SXqs188ikq4Pcw3LNcj836VfCZ2ZNC5aytqRlVvB+Q1LSQP7SFf416xOzDoZFWFuTssnAfIdlIAP9ltP+NXP8y4Rln+Jh/2RF/A3P6H8iiNdnpxpdnmoUpLOKY3NmslXCuWpPdxm/PidVske7ffyBq9WO6YaLYw4l2zadQ5T6eYduSlSTv57OFYB9wFdo5ebnLS3ChpTHa2CG2IqOEAeAG3Paqe908wm37NGTqS4KKf1eS+WZKpYRcT2yWquZCukfZmw3AnGbxn8ljKb83spu3NJ3hsK+cDzcP5wA+aetSfrZqjC0rwlWSXkMu3qSlTVktIOwK9vWI6hKQQVHy2A5qArC1S1AxTRuwi7ZK6idfnkFVutDSx3jivBSuvCkHqs8hz24jyr8/tUM8yLUbLpOS5LL7+U76LTSdw1HbB9FttPgkb+8ncnckmp2GUr+/krvEFqRW2NNcOc3xfcty35Z7tNeVGivd0dr4y9FyNPkd5ueRX6bfLzLcl3Cc8p+Q8s81rUdz7h4ADkBsBWvpSumIIpSlATJol2hMt06jCxTmm8lxVY4HLVOVuG0nqGlkHgHzSCnryBO9TzY/8AwZ1WSl7BsoRjF7d62W6kI3WfBG55/wBRS/zRVIqVtpVp0nnBmqrQp1VlNZl0ch0kz6zLVx2J2c0OjsE98Fe5I9L6wK5GXabrEWUS7ZNjqHUOsKSftFQth2sGp2INoZx/NrxGYRyRHce79lPubc4kj6qkW39rzWSK2EvzbNOI+U/bkgn+wUip0cTmvijmV88Kg/hlkdFGttxkq4I1vlvKPg2ypR+wV09k0wzy7qSI2NTWUn5cpPcJA8/T23+io5m9r7WKQ2UtSbHEJ+UzbwSP7alCuFynXXV3JULbumeXcNL5KbiOCKgjyIZCQR76zLFJf0xMRwmC+KRZ65YFhOCsiXqnqFa7WUji+L4a+8kLHsGxWfoQffXC5N2n8ZxWO7bdHMJYiuEFBvF1TxOq9qUAk+0cStvm1VV1xx1xTrq1LWs7qUo7knzJr1qFVuatX4mTqNrSpfCtp0Wd5vlmc3U3PLL9Nu0nnwd8v0GwfBCBslA9iQBXO0pWgkCu80g1azXS27fC8YuREVxQVJt8jdcaR+cjfkfnJIV7duVcHSgL04TqNpRrIEMh9vCcvd5GJIUPg8lfzFckqJPh6KufRXWvtleHZBjTh+MoKu432TJa9NpX9bw9x2NUQqY9J+0dqRgLLduM9GQWVI4Db7pu6Eo6bIXvxJ5dBuUj8mtkariUt9gdvc5yj2ZcvVE2VvLTlN1gAILvwlofIe57e49a1eOaz6E54EovTE3Ars56xI44qlexSQQB7SlHvrtW9NXrtD+MMPyOy5JBPquxZKTv9IJT+1Wm8s7PEKfurqmpLmvp3eBRQsMUw2p7y2b6xf1XH5MyLdmdskAJlJciL9o4k/WOf2Vvok2HLTvFlMvD5iwaj2fg+XQSQ/j087dS033o+tG4rWLtN3aVsu2Tm1DzYWCPsrg7/wBmWHV25WtR0+XxL0fmzobXTnErfs3VLW8HF/TLyJdpUZQY2YKITCi3tfkltp0j6tq6S14vqbPI4WJUdB6rkuJb2+g+l9lc5U9l17F9ivBrnmvuX1DTqlV/088+WT+x1NeCpIWhBUApauFA35qPkPM1yuQuYnhKS7qPqtGhOoG6rfBkFcg+zhTuv9j6aiTNO1bZLG09B0lxFDDygUqvF3HG6rzKUAknzHErbzTW639mE8/z7hZf7V6tr6MsI6SVai7NHV/5P0Wf1RZaXChWe1LvOUXaFYba2N1vTHUt/R6RGx9nX2VAerPawsNhjv2bSWB8NmEFC73NbIbT7W2zsVn2qCU7j1VCqn5tmOUZrd1XbKr5Nu0tW+yn3N0oHkhI9FA9iQBWhrucH0Ww3CXrUYZz/VLa/DgvBIiXOIV7jZN7O5bjY5He7vkd6k3m+3GTcbhJVxvSJCypaj7/AAA6ADkByFa6lK6IhClKUApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQCsu1XO42mWmXa7hLgSU+q9GeU2sf1kkGsSlASfYu0FrNZUJRD1AuzoT0+GcEo/W8lVdPH7WetTaOFd9t7x/KXbGQf2UioJpQE3T+1VrdKQUt5VHiA9e4tkff61INcNk2rOpmSIU3es6v8llfrMiYttpXvQghP2VxVKA8kkncncmvFKUApSlAKUpQClKUApVjfwNdW/55i/685+6rwrsbathJIlYwo+QnOfu6ArnSpE1U0W1F00YRMyixKRb1qCEzoziXmOI9AVJ5oJ8AoDfw3rYaN6D5tqtYZl5xh+ztxokr4K4JkhbauPhSrkAhXLZQoCK6VsMltErH8judhnFoy7bLdiPltW6CttZQrhJA3G4O3KpD0a0JzXVeyzbtjD9objw5PwZ0TJC21cfCFcgEK5bEUBFlK3V0xi8Qc2mYciKqbeItwctxZiJLhdeQ4WyEDbdW6gduVTJZOyLrFcYSJMiHZrWpY37mZPHeD3htKwPdvQEA0qxv4Gurf88xf9ec/dVxur/Z+zrS3FmsjyV+zOQnZaIiREkrcXxqStQ5FCeWyD4+VARJSlKAUqdsM7K2pmWYpbMltcrHkwrlGRJYD0xxKwhQ3HEA2QD9Nbf8DXVv+d4v+vOfuqArlSplzjsy6vYpbnbi/j7V0iMpK3XLZID5QBzJ4OSyPck1yujWleTar3qbacYdt7ciHG+EumY8ptPBxBPIhKue5FAcJSrG/ga6t/zzF/15z91WPcOx9rBGjqdZbsE1YHJpi4EKPu40pH20BXqlbPJ7DecYvsqx3+3SLdcoi+B6O8nZST1HsII2II5EEEVrKAUqccC7Lmp2Z4fbcotqrJGhXFrvmES5S0O8G5CVEBBABA3HPoRUOZBap1ivs+yXNksToEhyNIbPyXEKKVD6xQGDSugwLC8ozu/IseJ2eRdJyk8akN7BLaenEtSiEoTzHMkDmBU0xuxzq66ylbjmOMKI5ocnqKh7+Fsj7aArtSrG/ga6t/zzF/15z91UV6yaXZJpTfollyd23uSZcUSmzDeU4ng41J5kpTz3SaA4alTTifZp1DyXT2PnFuk2JNrkRFy0JdlLS7wI4t90hBG/onxrhNJtPr7qZlqcYx1yEicphb4Mt0oRwo235hJO/PyoDkaV22semWR6VZJGsGTOQHJcmGmYgw3VOI7srWgbkpTz3Qrw8q4mgP0/7WOYZDgmi1xyPF54g3NmTHQ28WUO7JW4EqHCsFPQ+VUvi9qvW9l9DjmVRpKUnctuWuMEq9h4WwfqIq/GsFuwO64NJh6kuRG8cU62X1SpaozfGFAo3WlSSPS28edQfFwvsZRpCH25uJqUg7gOZG+4n6UqeIPuIoCWcPmNaxdn+JJyK3ssJyO0qRLZAPAhRBSVp35gcQ4089xy58t6iH7m9/BVkX6cP+Q1WRrv2ldPsawCXjOnU+Nc7q9EMKIIDfDFgIKeEL4tgk8KfVSnfmBvsKx/ub38FWRfpw/5DVAU71r/AIZc2/4hn/8AMOVcD7m5/Bpk36YH+Sitvlfaw0tsGU3axT8VyJ6XbZr0R9xuHGKFrbWUKKSXQSCQdtwDUm6E6p4zqrYZ92xe13C3x4coR3UTGW21KXwBW4CFqG2xHU0BXLswWqBP7a2pM6W2hx+3Srq9FChzQtU3uyse3hWof1q6Dtna5aiad5xbsbxFxm1RXYCZSpq4iHlvrUtaSlPeApASEjw33PuqvszUO8aX9qfLsrszbb62shuTUiM4SESGVSV8SCRzHQEHwKQdj0qxzXa90hvtuaTk2J3oPJ9IsOwmJTaVePCorG/vKRQFePwptc/6Zt/3VE/dVzOo+tepWolhbsWX5Am4W9uQmSloQWGtnEpUkHdtCT0Urlvtzq2ELtJdnKTKbYexZyK2tQSp56wMFCB5nhKlbe4GvXtkaN4NL0mnZ9jNngWu6W1DUjvIDSWmpbKlpSoLSkBJICuIK235bb7GgKG0pSgP0uwW6z7F2MId7tb/AHE+34W5Kiu8AVwOtxlKQrZQIOxAOxBFU7/Cn1z/AKZN/wB1RP3VXW0cu8HH+ytj9+ujLj8C24uJclttAUpbTbJWpIBIBJAPIkCoy/C10P8A6I37+6Yv72gJH7JWeZVqLpIi/wCXx0JnJnOxm5CGe6TKaSlBDvCOXrKUnly3QahbscM2+P2odU2LSpCre2qWmMUer3Ym+jt7NttqnWNf4WtujE5/TXKJlhXKSuIiUI4S7FcSBu0tPPh3Soc0HcBQKTVcfuf1pnWHWvNrHc2u6nW+AuLIRvvwuIkJSob+PMHnQGV2stdtUcE1on47i2SIg2xmLHcQyYEd3ZSmwVHiWgq6+2sbsw9orVTLNYLNiuRzo96t9xU4h3/YW2nGQltS+NJbSnoUjfcHlv76mnWLUTs/Y7nMi16g2O0y78hptTrsjH0yllBSCj8YUHflty35V2+BuYAcGOcabYvanI8qG48wm1W9qM9J4d92uQTsriTw7K6EUBWT7pXa4DN7wu8tNoTOlR5cd9QHpLbaU0pG/uLq/rqtekmHys+1IseJReIG4SkoeWkc22R6Tq/6qAo/RXQdofVe76tZx8cT4fxdDhtmPBghfF3CN9yVHYbrJ6nYdAPCrB/c5sC2Te9RpzPX/wAstxUPcp5Y/YSD+eKAnvK9SLDgWpWB6ZNssstXlpbCADsIiEJCI6QPJawUD3VVT7oPgPxFqPDzaEzwwsga4ZBSOSZTQAO/lxI4D7SlZqQNc+zvq7n+sU3OLfkGLw2kOtC1pcmSA5Haa27s8mCArcFZAJAKjzqY+0PgU7UXQadZZ0eOvIY8VE5gRiVIExpO5S2SASFemgEgcl9BQEa/c47VAY0nvl5bbQZ0u8qjvOAel3bbLZQn6C4s/wBaol1r7TWsFq1QyGy2i4MWCFbZ70RmN8XtOLKELKUrUp1KiSoAK5bDny5VxnZk14uGjs2dCk21V1sNwWlyRGS5wOsuAbd42Ty3I5FJ67J5jarFy+1boTdlplXXFLu/I4QCZVojurA8uLvDyoCuv4U2uf8ATNv+6on7qo/1L1Dy7Ue7xrtmN0TcZkZj4O04I7TPC3xFW2zaUg81HmedXm081j7P+oWTxsUg4xGYmziUR27hY2UtvKAJ4d08QB2B67b9Ou1QZ27dJcawS6WXJsTgN22Jd1usyoTQ2ZbdQEqSptPyQoFW6RyHCNhzoCyOgX8UKz/oGT/3aqp2AP4wTP6Kk/8A61avQL+KFZ/0DJ/7tVT7AKgO0GwCdibXKA9vJNAbr7o7/DRZP+HWv+ZkVWOrO/dHUn/xmsatjsceaAP/ANxI/wBarFQH6Q9u/wDi43f/ANZE/wA5Nfm9WVIuFwkNFqROlPNnqlbqlD6iaxaAVfL7m9/BVkX6cP8AkNVQ2siLOmxUFEaZIYSTuQ24Ugnz5GgOm1r/AIZc2/4hn/8AMOVcD7m5/Bpk36YH+SiqJuLW4tS1qUpaiSpSjuSfM19os6bFSURpkhhJO5DbhSCfooCz2AaI2bWTWrV/42vU+2fFGRvd38FQhXed7Jlb78Q8O6H1mpD/AAI8O/pnfv8A2Wv9Ko8zOnMOOOMzJDS3Tu4pDqgVnzOx59T9dfb43u3+9Jv6wr/WgLx2/sT4I1Mbcm5VkMphKgVtJDTfGPLi4TsPdWf21tSsVx3SCbp9arhEfvNxQ1ETDYcC1RWEKSVKc2Po+inhAPM8W/PY1Qtd0ubiChdxmKSeoL6iD9tYdAKUpQH6faQWNrJ+ylYcbkPrjs3bFhBcdQAVNpdZKCoA8twFb1E/4EWKf03vX6s1VJGrncmm0ttXGWhCRslKXlAAewb17/G92/3pN/WFf60B+m+EWHT/ALPGmTsCRfxDtqHnJkiVcHk97IdUlIPClIG52QlISkE8h1POoC7El/TlXaM1GyVDam27oy/LbQrqhC5SVJSfaAQKp2+88+4XH3VurPVS1En6zXtFlSYqyuNIeYURsS2spJH0UBOXbx/jGXX/ANFE/wAoV233P3VL4nySRprd5O0G7KL9sUs8m5QHpN+wLSOXzkgDmqqqyH3pDpdkPOPOHkVLUVH6zXq2tbbiXG1qQtJ3SpJ2IPmDQFl+2vo5KsOqETIcagKct+WSg2llpPJues80Dy7wniHt4/AVYnUec32feyqiBZZCGblDiN2+E8Eg8cx0krdAI2J3LrmxB9XavzoduVxd4e8uEtfCoKTxPKOyh0I59a9JM6bKQESZkh9AO4S46VAHz5mgJT/CT1u/p7K/U4/7urM9h3WfI8+lX/Gs0vBuV1jpRNhPLbQhSmeSHE7IAGyVFB6b+mfKqF19Y0h+M53kd5xle23E2opO3vFAWlzPQjG5Xazn4ZebjNs1syNhy6WV2KlBCnSSpbJ4hsACl3YDwCB413/4EeHf0zv3/stf6VR92fOdeQ87Nkrcb9RanVFSfcd+VfX43u3+9Jv6wr/WgP0G0t7LGDaeZhDy9V9u9xk21RdjpkqbbZQrYjjVwp3O2+45gee9Qj2/dTsfy282TEsbuMe5M2hTr82THWFtd8sJSltKhyJSArfbcbqA6giqxSZ86SjgkTZLyPyXHVKH2msfY7b+FAfpboF/FCs/6Bk/92qF6C50NN9V7JlrjTj0WK6pEtpHrKZcSUL28yAriA8wK49u43BtkMNz5SGgNghLygkDy23rFoD9JtT9N9Nu0jj9svlsyUF6IgiNcLetKylC9iW3Wzz5HnwnhUDv5kVGH4Dtt/8AmNL/ALpT+9qlkd96O53jDzjS+nEhRSfrFZXxvdv96Tf1hX+tASLm9r04wfNJ2H3DHsgu7tseEaZPTeW2O8WAO8U218HUEgHfYKUroNzzrzlWPad4bBt05Td2y2NeXJj1ufanCC2mI1KcYbUpJZUpS1d0pR9UDkNjXvqIvB88zefmJztizi7LTJkwpNskrfYcKU94kFtKkLHEFbHiG4232r7ZzcNOMyiWyDZr2cUhWJcyJBj3CI++HIi5Tj7SgtvvFBX41QKVdNhsTQGzw7AtOLzDYyue1kMDHHLROkSIqJjbz8d6M/HQpSHO6SFo4JCVBJSDuCN/GuYtOm6Y2pt0xO+vKeYjWifcYkuIsBEttuE7IjvIJB3bXwoPuJHI9N7EzPErHhEjD4d3duKW7Bc2EzExFttvS5T8ZQQhKvSCQiOPSUE8yeXn6aW6g44zjD0PMH32bnZrTcYdjloZLheZlRXmjEc25hKXXA4hR5AKcHLcUB877ieJ4u5bIs7CctvcSRb4ct+9RrgGmXO/YQ6ssAR1J4UFZTzUrcoO+3Qc3nmMY7a8Ltl+x+dLnMzr7dITL7w4A7GjiOWV8GwKVEPKKt/Z02roYd3s0VUOTiOrt3w+AI7CnLZ/txcjvhtIe4C1uhYLgWobqTyUAdqzNQMqwnUWNNi/HP3sFjJrlc4hlwXHG32JQY237kKKHAWSSOEj0+vKgNdgunthvdgxadMcmh26pyEyO7dAA+AwUPs8Ponbdajxddx0261HuMSrDEuKncitE26w+7IDEWeIiwvcbK4y25y235cPj15VLWKZfhWPycQx85C5Kg2yPfvht0RBdS0lyfD7htKEEd4oJKEEkpHrdOVRtk1jxe3W0SLPm8e9Se8CfgyLc+weE77q4lgDly5e2gJMnYVpxOzbHcNtlkv9vfvdsgXJVwdvTb4jNvR0SXEhr4OnjIRxoB4k89jt4VzGFxtNsty604m1jOQ2td2mNQY883xt9TLjqwhC1t/B0haQpQ3AKeW+xFZn3/WKLqzhuSoMiRbrZZLZb54bb2cBbhIjvhIVtuR6W3MA7DnWPgjGC4jm1lyx7PWLmzZ57M9EKNbJKZD6mlhaUemkNp3KQCeMgb+NAecntOB4ha8ZZuuNXq6T7nZ0T5LrV6RHQlannWylKO4XyHdb77+NZGYaeY/bMXyG+QF3JCWIFlnwWJLqVLYTNSpS23SEpCynYbKATuCDtzr1y3VzIU2zFomKZPc4LcGyNsTWmVKbSmV3zy1beforRzH/AEreXTOcJyMXhq83N9hWQtY8brJREXut5hO05zZI9bckjbkonlQGjuGnNlY0qTLbfmnM2LYzkEqMVpLItzrqmwkJ237wJUw8TvtwOHly3rnNGMdtuU561abuxMkRPgE6UpmI6G3XVMRHXkoSopVtupsDoetdwxq9isjVh7KJuDobhzlKhSyme8SLetv4OpAb34TsxyCdtgUjyrk9I7zY8U1Ucmv3pxi1oi3KIxcUMr4h3sV5ll3gSOMektB6bj6KA3GN41jGQZpjOPuYHlNgZul6iw3pcm594O7ccCVJSDHQOIgnY78tuhrQ6oYbHs+ZQYmLJlTbTfGGZNm7whbqw4eBTSiAAVoeS42dvFO/jXS4xfrZYs5xW+3TVSTkMK2XyJLfiqYmHhbQ4CpwBxOxIG/Ic+fKvfT7UTHbVjsly8pfdveOzJFwxJQa4kl2QgpUlZ+SltwNPp+clQ+VQGBrrguNYXAx0Y/LlTH3vhUS5PuOpU25KjKQ26WgEjZHeFwDcncAHetpgen2Fy7Xjt3yRV3VBlY1crxcBDfQlwKjzHGR3fEkjbgQDsep8RXFZZkEC56cYdZ2X3HLhbFT1TApJ5F55K0HiPrbgGuusmdY5Fwi1Wp6U6JUbDrtanEhlRAkyJbrrSd9uhStJ36CgNZaNNmWdXlYfeJK5NuXb5k+FNiq4UzGEQnpEd5BIPoq4Ebjw9JPIjlnXnGsSsNoxtS8Hye+P3OyR7g/JjXTumw45xbpSkR17AcP5XjWTo/qDjkO0tw8zffZlWGJPTYpbbJcKkSYzzS4i9uYR3jodSTySe8Hyq0Wb6i3R6Hi8TGcmvMOPb8fiw5LUeU6whL6OPj2AIB6jn40B9cmtmCYcq2Qrnjt6u02da41zdUm8JjoYTIbDqGkp7hRJShSQVE8zv6IreSMHwW2Ypc8xft18nW1duts6BBNybada+EuyGnELdDJC+FcdWxCE7gjcVpMmfxTOEWa6y8zZss+NZ4lvmR50GQ4VLjtBoLQtpKwoKShJ58J3J99dHL1St9mwy5WTEr7cGZka12u2wZrbKmTJ7l6S6+oDnwJ4n9gFcyB0HSgMLB8KwjOfiSbb7de7LHcyu3WOay/cUSQ+1K7wlTS+5RwrSGjuCFDZaTy258tqjhkazZlBi4smVNtF8YZk2bvCFurCz3amlEAArQ8lxs7eKd/GuzwXVhp9jGXs8vUyfOsmZ2+5R3nm1OrZgpS58JAUBzHElk8PXccvGsTT7UTHbVj8p29JfdvWOzZFxxJQa4kl6QgpUlf5KW3A0+n5yVD5VAfLV/TWy2B3ErViDsy5XO4vv2yWpbqVofmsuNtL7kBI2R3qlpG5O4AO9ffWqz2S2RMefs9xuV7xmzTn7JOjl9DaUymFILqmilHCgPoIKVlKlEoJJVtX1wTUHF7HZcTuVwcemXjGY11kR4qkL2dmvuoDBKwOQSCtzi35FAHU1pbZmeIScIyfE38eFlZuLCJkSQiU9JKZzBJa9FW/CFoW62VD8sE8hQGdPi6UxtObXlwwrJVGfc5cD4N98rf4vuG2F8fF8E579/ttsNuHqd+X2vWn+IY5Zp+SXNq7z4MSBYi3CYmIYU7JnwzIcUp0tr4W08C9khO54gOIbbnjLnfbc/o9YsbbdWbjDvk+Y8jgOwadZipQeLoSS0vl4be2u9vea4fk1jumLy7y7bWZdssCo85yG4423Jgwyw62tKfT2PeK2UkH1PI70BwWQfeJPxQT7BFuVovbc9DCrdImfC0SI6kLJdSoNI4SlSUpKSTvxgjoa6bVPTuyY7iaXrNImP3mxSWIGUNurSptuQ+wHUFsAApSlaX2Vb7+kgee1ffBlaUYjKh3K63pOS3KJcW57RjQ5DbKW2GnVpYIcCeIuvFgElOyUpVz57HxYdRMUnTsmiXvHPi2PlMR9u4T0zH5CkPk98093at9yH0oJ257FW3WgIkpSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUB//2Q==" alt="PHS Brasil" style="height:56px;width:auto;">
+      <div class="logo-sep"></div>
+      <div class="ms-wrap">
+        <div class="ms-grid"><div class="ms-sq"></div><div class="ms-sq"></div><div class="ms-sq"></div><div class="ms-sq"></div></div>
+        <div class="ms-text">Microsoft Solutions Partner<span>Segurança &amp; Produtividade</span></div>
+      </div>
+    </div>
+    <div class="hdr-tag">🛡️ Segurança para IA</div>
+    <h1>Avaliação de <em>Maturidade</em><br>em Segurança para IA</h1>
+    <p>Descubra em minutos como sua organização está protegida para ambientes com inteligência artificial — baseado no framework Microsoft.</p>
+  </div>
+  <div class="hdr-accent"></div>
+</div>
+
+<div class="prog-wrap" id="prog-wrap" style="display:none;">
+  <div class="prog-inner">
+    <span class="prog-lbl" id="prog-lbl">Seção 1 de 5</span>
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+    <span class="prog-pct" id="prog-pct">0%</span>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- INTRO -->
+  <div id="intro-screen">
+    <div class="card">
+      <div class="intro-body">
+        <h2>Como funciona esta avaliação?</h2>
+        <p>Desenvolvida com base no framework de <strong>Segurança para IA da Microsoft</strong>, esta avaliação mede a maturidade da sua organização em 5 dimensões críticas.</p>
+        <p>Ao final, você recebe um <strong>relatório personalizado</strong> com seu perfil de maturidade, recomendações práticas — e pode baixar o resultado em PDF.</p>
+        <div class="sec-grid">
+          <div class="si"><div class="si-i">🔍</div><div class="si-n">Visão Geral</div><div class="si-c">4 perguntas</div></div>
+          <div class="si"><div class="si-i">🛡️</div><div class="si-n">Dados e Vazamentos</div><div class="si-c">7 perguntas</div></div>
+          <div class="si"><div class="si-i">👁️</div><div class="si-n">IA Sombra</div><div class="si-c">3 perguntas</div></div>
+          <div class="si"><div class="si-i">🤖</div><div class="si-n">Agentes de IA</div><div class="si-c">5 perguntas</div></div>
+          <div class="si"><div class="si-i">📋</div><div class="si-n">Conformidade</div><div class="si-c">5 perguntas</div></div>
+        </div>
+      </div>
+      <div class="intro-foot">
+        <div class="meta-row"><span>⏱ ~8 minutos</span><span>📊 24 perguntas</span></div>
+        <button class="btn btn-p" onclick="startQuiz()">Iniciar avaliação →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quiz-screen" style="display:none;">
+    <div class="pills" id="pills"></div>
+    <div id="sec-wrap"></div>
+  </div>
+
+  <!-- LEAD FORM (exibido ANTES do resultado) -->
+  <div id="lead-screen" style="display:none;">
+    <div class="card">
+      <div class="lead-hd">
+        <h2>Quase lá! Informe seus dados para receber o resultado</h2>
+        <p>Seu relatório será enviado por e-mail. A PHS Brasil receberá uma cópia para que nossa equipe possa ajudá-lo.</p>
+      </div>
+      <div class="lead-body">
+        <div class="fgrid">
+          <div class="fg"><label>Nome completo *</label><input type="text" id="f-nome" placeholder="Seu nome completo"></div>
+          <div class="fg"><label>Empresa *</label><input type="text" id="f-empresa" placeholder="Nome da empresa"></div>
+          <div class="fg"><label>E-mail *</label><input type="email" id="f-email" placeholder="seu@email.com.br"></div>
+          <div class="fg"><label>Cargo</label><input type="text" id="f-cargo" placeholder="Ex: Gerente de TI"></div>
+          <div class="fg full"><label>Telefone / WhatsApp</label><input type="tel" id="f-tel" placeholder="(11) 9 0000-0000"></div>
+        </div>
+      </div>
+      <div class="lead-foot">
+        <span class="lead-note">🔒 Dados usados apenas para envio do resultado</span>
+        <button class="btn btn-p" onclick="submitLead()">Ver meu resultado →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="result-screen" style="display:none;">
+    <div class="card" style="margin-bottom:18px;">
+      <div class="res-top" id="res-top"></div>
+      <div class="breakdown" id="breakdown"></div>
+      <div class="res-actions">
+        <button class="btn-pdf" onclick="exportPDF()">📄 Baixar resultado em PDF</button>
+      </div>
+    </div>
+    <div class="card" id="recs-card" style="margin-bottom:0;"></div>
+    <div class="cta">
+      <div class="cta-in">
+        <h3>Pronto para proteger sua jornada com IA?</h3>
+        <p>Nossa equipe de especialistas Microsoft pode ajudar sua organização<br>a evoluir no nível de maturidade em segurança para IA.</p>
+        <a href="https://wa.me/551139451934?text=Olá!%20Acabei%20de%20completar%20a%20Avaliação%20de%20Segurança%20para%20IA%20da%20PHS%20Brasil%20e%20gostaria%20de%20falar%20com%20um%20especialista." target="_blank" class="btn-wa">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Falar com um especialista
+        </a>
+        <div class="cta-contacts">
+          <span>📞 (11) 3945-1934</span>
+          <span>✉️ comercial@phsbrasil.com.br</span>
+          <span>🌐 www.phsbrasil.com.br</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const SECS=[
+  {id:'visao',t:'Visão Geral',s:'Adoção e governança de IA na organização',i:'🔍',q:[
+    {t:'Quais aplicativos de IA estão sendo avaliados ou usados atualmente na sua organização?',o:[{t:'Nenhum',s:0},{t:'Ferramentas de IA para consumidores (ex: ChatGPT, Microsoft Copilot, Google Gemini)',s:1},{t:'Microsoft Enterprise Chat e Agentes (ex: Microsoft 365 Copilot, Copilot Chat, Security Copilot)',s:2},{t:'Plataformas pro-code ou low-code (ex: Azure AI Foundry, Copilot Studio, Amazon Bedrock)',s:3}]},
+    {t:'Em que estágio sua organização está na adoção de aplicativos de IA?',o:[{t:'Ainda não começamos a implementar aplicativos ou soluções de IA',s:0},{t:'Estamos pesquisando, mas ainda não nos comprometemos com nenhuma solução',s:1},{t:'Estamos testando com grupos de negócios direcionados',s:2},{t:'Estamos implantando ou já concluímos a implantação em toda a empresa',s:3}]},
+    {t:'Quem é responsável por manter o uso da IA seguro na sua organização?',o:[{t:'Não alocamos recursos para garantir a segurança de aplicativos de IA',s:0},{t:'Nossa equipe de segurança assumiu isso como responsabilidade adicional',s:1},{t:'Temos pessoas dedicadas à segurança de aplicativos de IA',s:2},{t:'Operações terceirizadas para um provedor de serviços gerenciados',s:3}]},
+    {t:'Quais recursos você reservou para apoiar o uso seguro e responsável de aplicativos de IA?',o:[{t:'Não temos recursos alocados para suportar aplicativos de IA',s:0},{t:'Nos reunimos com líderes para identificar preocupações e riscos potenciais',s:1},{t:'Identificamos sistemas, treinamentos e frameworks necessários para adoção segura',s:2},{t:'Alocamos recursos ou já temos ferramentas implementadas',s:3}]}
+  ]},
+  {id:'dados',t:'Compartilhamento de Dados',s:'Prevenção de vazamentos e controle de acesso',i:'🛡️',q:[
+    {t:'Como sua organização classifica informações sensíveis acessadas por aplicativos de IA?',o:[{t:'Não temos ferramentas ou processos para classificar informações sensíveis',s:0},{t:'Utilizamos ferramentas para que usuários rotulem manualmente documentos sensíveis',s:1},{t:'Utilizamos ferramentas automatizadas de classificação e proteção de dados',s:2}]},
+    {t:'Como garante que o uso de aplicativos de IA siga as políticas de segurança de dados?',o:[{t:'Não alinhamos as interações da IA com políticas de segurança de dados',s:0},{t:'Utilizamos processos manuais para orientar o manuseio seguro de dados',s:1},{t:'Utilizamos sistemas automatizados para alinhar as interações dos aplicativos de IA',s:2},{t:'Temos ferramentas para limitar o compartilhamento excessivo de dados sensíveis',s:3}]},
+    {t:'Como avalia e governa o acesso dos usuários a informações sensíveis?',o:[{t:'Não temos abordagem formalizada para governar o acesso',s:0},{t:'Pedimos que os usuários revisem manualmente o que compartilharam',s:1},{t:'Temos ferramentas centralizadas para alertar sobre compartilhamento excessivo',s:2},{t:'Temos ferramentas para iniciar proativamente remediação de informações sensíveis',s:3}]},
+    {t:'Como garante que apenas usuários autorizados acessem aplicativos de IA?',o:[{t:'Não temos ferramentas ou processos para controlar o acesso',s:0},{t:'Concedemos acesso com base nas funções de trabalho',s:1},{t:'Garantimos acesso apenas a partir de dispositivos compatíveis',s:2},{t:'Controlamos dinamicamente o uso com base em avaliações de risco em tempo real',s:3}]},
+    {t:'Como identifica comportamentos de risco de usuários ao trabalhar com aplicativos de IA?',o:[{t:'Não temos ferramentas para identificar uso indevido de aplicações de IA',s:0},{t:'Auditamos as interações, mas não analisamos proativamente quanto ao risco',s:1},{t:'Utilizamos ferramentas para avaliar proativamente a atividade dos usuários',s:2},{t:'Empregamos ferramentas analíticas para identificar atividades suspeitas automaticamente',s:3}]},
+    {t:'Como avalia e controla dados sensíveis compartilhados em excesso?',o:[{t:'Não identificamos dados sensíveis compartilhados em excesso',s:0},{t:'Orientamos usuários a revisarem manualmente por conta própria',s:1},{t:'Temos controles para gerenciar como os arquivos são compartilhados',s:2},{t:'Usamos ferramentas para avaliar e iniciar soluções proativas',s:3}]},
+    {t:'Como garante que informações sensíveis sejam usadas apenas em dispositivos autorizados?',o:[{t:'Temos políticas, mas não ferramentas para fazer cumprir',s:0},{t:'Utilizamos gerenciamento de dispositivos para garantir conformidade',s:1},{t:'Utilizamos políticas de proteção de aplicações para BYOD',s:2},{t:'Utilizamos tanto gerenciamento de dispositivos quanto políticas de proteção de aplicações',s:3}]}
+  ]},
+  {id:'sombra',t:'IA Sombra e Ameaças',s:'Detecção de ameaças e IA não autorizada',i:'👁️',q:[
+    {t:'Como detecta e investiga atividade suspeita relacionada a aplicativos de IA?',o:[{t:'Não temos ferramentas centralizadas para identificar comportamentos suspeitos',s:0},{t:'Utilizamos soluções EDR para identificar comportamentos suspeitos em dispositivos',s:1},{t:'Utilizamos soluções XDR para identificar atividades suspeitas em múltiplos vetores',s:2},{t:'Utilizamos XDR combinado com informações de segurança de dados',s:3}]},
+    {t:'Como sua organização governa o uso de aplicativos e soluções de IA sancionados?',o:[{t:'Desestimulamos o uso não autorizado, mas não temos ferramentas para controlar',s:0},{t:'Exigimos que usuários aceitem políticas de uso antes de acessar',s:1},{t:'Utilizamos DLP para controlar o envio de informações sensíveis em aplicativos de IA',s:2},{t:'Exigimos tanto aceitação de políticas quanto uso de soluções DLP',s:3}]},
+    {t:'Como detecta e mitiga riscos em prompts e resultados de IA?',o:[{t:'Não monitoramos prompts ou saídas de IA para riscos',s:0},{t:'Revisamos manualmente após incidentes serem reportados',s:1},{t:'Monitoramos prompts usando detecção assistida por IA',s:2},{t:'Usamos proteções automatizadas para evitar prompts e saídas inseguras',s:3}]}
+  ]},
+  {id:'agentes',t:'Agentes de IA',s:'Governança do ciclo de vida de agentes',i:'🤖',q:[
+    {t:'Você desenvolve e testa agentes de IA em ambiente não produtivo antes de lançá-los?',o:[{t:'Construímos e testamos agentes diretamente em ambientes de produção',s:0},{t:'Pedimos que as equipes testem localmente, mas não é aplicado consistentemente',s:1},{t:'Fornecemos ambientes padronizados, mas não limitamos acesso a recursos',s:2},{t:'Limitamos o que agentes podem acessar durante desenvolvimento e expandimos após validação',s:3}]},
+    {t:'Como aprova, monitora e aposenta ferramentas e agentes de IA ao longo do ciclo de vida?',o:[{t:'Não temos processo definido; agentes permanecem ativos indefinidamente',s:0},{t:'Dependemos de revisão informal e comunicação da equipe',s:1},{t:'Temos processo de aprovação para alguns agentes, mas não aplicado consistentemente',s:2},{t:'Aplicamos fluxos de governança com revisão de segurança e aprovação do administrador',s:3}]},
+    {t:'Como monitora o que agentes de IA fazem e a quais sistemas se conectam?',o:[{t:'Temos visibilidade mínima sobre a atividade dos agentes',s:0},{t:'Capturamos logs, mas não correlacionamos as ações entre sistemas',s:1},{t:'Utilizamos análises de segurança para identificar comportamentos de alto risco',s:2},{t:'Utilizamos monitoramento centralizado conectando ações dos agentes a usuários e dados',s:3}]},
+    {t:'Como detecta quando agentes de IA acessam ou compartilham informações sensíveis?',o:[{t:'Dependemos dos usuários para relatar interações com dados sensíveis',s:0},{t:'Temos log de auditoria ativado, mas não monitoramos ativamente',s:1},{t:'Utilizamos ferramentas que identificam uso de dados de risco e alertam sobre exposições',s:2}]},
+    {t:'Como acompanha todos os agentes de IA em uso, incluindo os criados por funcionários?',o:[{t:'Não identificamos nem rastreamos agentes de IA na organização',s:0},{t:'Pedimos às equipes que reportem manualmente os agentes que criam',s:1},{t:'Rastreamos agentes aprovados da Microsoft, mas descobrimos agentes sombra reativamente',s:2},{t:'Mantemos inventário centralizado de todos os agentes com insights de postura e uso',s:3}]}
+  ]},
+  {id:'conf',t:'Conformidade Regulatória',s:'Auditoria, regulação e qualidade de dados',i:'📋',q:[
+    {t:'Como detecta e gerencia prompts e respostas arriscadas para buscar violações de política?',o:[{t:'Não monitoramos prompts e respostas para interações arriscadas',s:0},{t:'Usamos ferramentas de eDiscovery para investigar reativamente incidentes',s:1},{t:'Utilizamos soluções de monitoramento de conformidade baseadas em IA',s:2}]},
+    {t:'Como descobre e controla aplicativos de IA baseados em SaaS?',o:[{t:'Não monitoramos o uso de aplicativos de IA baseados em SaaS',s:0},{t:'Usamos dados de rede (logs de firewall) para identificar o uso',s:1},{t:'Utilizamos soluções que monitoram e gerenciam aplicativos de IA SaaS',s:2},{t:'Usamos ferramentas para identificar aplicações inseguras e controlar o acesso',s:3}]},
+    {t:'Como traduz requisitos regulatórios em políticas e controles técnicos?',o:[{t:'Não revisamos ativamente regulamentos relacionados ao uso de IA',s:0},{t:'Temos pessoas que revisam regulamentações e identificam controles necessários',s:1},{t:'Temos ferramentas que mantêm o alinhamento com regulamentações',s:2}]},
+    {t:'Como audita e protege dados sensíveis em prompts e saídas de IA?',o:[{t:'Não gerenciamos dados compartilhados em aplicativos de IA',s:0},{t:'Capturamos informações nos prompts, mas não revisamos os dados',s:1},{t:'Auditamos as interações e realizamos revisões manuais quando solicitado',s:2},{t:'Auditamos as interações e usamos ferramentas proativas de gerenciamento de postura',s:3}]},
+    {t:'Como sua organização prepara dados para aplicativos de IA mantendo qualidade e segurança?',o:[{t:'Não temos ferramentas ou processos para gerenciar a qualidade dos dados para IA',s:0},{t:'Orientamos usuários a auditar e remover dados desnecessários manualmente',s:1},{t:'Usamos ferramentas para reter e/ou excluir dados com base em prazos especificados',s:2},{t:'Usamos ferramentas para reter e/ou excluir automaticamente dados por localização e conteúdo',s:3}]}
+  ]}
+];
+
+const BC=['#316C9E','#7B851C','#294256','#A30000','#FF9700'];
+const RM=[
+  {c:'Visão Geral',i:'🔍',l:'Estabeleça uma equipe dedicada à governança de IA e mapeie todos os aplicativos em uso. Defina políticas claras de uso aceitável antes de expandir a adoção.',m:'Formalize o processo de aprovação de novas ferramentas de IA e crie um inventário centralizado de soluções em uso.'},
+  {c:'Compartilhamento de Dados',i:'🛡️',l:'Implemente ferramentas de classificação de dados (como Microsoft Purview) e crie políticas de DLP para evitar que informações sensíveis sejam inseridas em aplicativos não gerenciados.',m:'Avance para classificação automatizada e implemente controles de acesso condicional baseados em risco.'},
+  {c:'IA Sombra e Ameaças',i:'👁️',l:'Comece monitorando quais aplicativos de IA os colaboradores usam com ferramentas de CASB/MDCA. Bloqueie aplicativos não aprovados e crie um processo de sanção.',m:'Implemente proteção de prompts e monitore ativamente as interações com IA em busca de comportamentos de risco.'},
+  {c:'Agentes de IA',i:'🤖',l:'Crie um processo formal para aprovação e monitoramento de agentes de IA. Defina ambientes de teste separados do ambiente de produção.',m:'Implemente governança automatizada do ciclo de vida de agentes com revisão de segurança obrigatória antes da publicação.'},
+  {c:'Conformidade Regulatória',i:'📋',l:'Mapeie os requisitos regulatórios aplicáveis ao seu setor (LGPD, ISO 42001, AI Act) e avalie as lacunas em relação ao uso atual de IA.',m:'Implemente ferramentas de auditoria de interações com IA e crie processos de revisão periódica de conformidade.'}
+];
+
+let cur=0, ans={}, lead={};
+
+function toast(msg,ms=3500){ const e=document.getElementById('toast'); e.textContent=msg; e.classList.add('on'); setTimeout(()=>e.classList.remove('on'),ms); }
+function show(id){ document.getElementById(id).style.display='block'; }
+function hide(id){ document.getElementById(id).style.display='none'; }
+
+function startQuiz(){ hide('intro-screen'); show('quiz-screen'); show('prog-wrap'); renderPills(); renderSec(0); prog(); }
+
+function renderPills(){
+  document.getElementById('pills').innerHTML=SECS.map((s,i)=>`<div class="pill" id="p${i}">${s.i} ${s.t}</div>`).join('');
+}
+function updPills(){
+  SECS.forEach((_,i)=>{ const p=document.getElementById('p'+i); if(!p)return; p.className='pill'+(i<cur?' done':i===cur?' cur':''); });
+}
+
+function renderSec(idx){
+  cur=idx; updPills();
+  const s=SECS[idx], totalQ=SECS.reduce((a,x)=>a+x.q.length,0), prevQ=SECS.slice(0,idx).reduce((a,x)=>a+x.q.length,0);
+  const last=idx===SECS.length-1, done=s.q.every((_,qi)=>ans[idx+'-'+qi]!==undefined);
+  let h=`<div class="card sec-card on" id="s${idx}">
+    <div class="sec-hd"><div class="sec-ico">${s.i}</div><div><div class="sec-title">${s.t}</div><div class="sec-sub">${s.s}</div></div><div class="sec-n">Seção ${idx+1} / ${SECS.length}</div></div>`;
+  s.q.forEach((q,qi)=>{
+    const k=idx+'-'+qi;
+    h+=`<div class="qb"><div class="qn">Pergunta ${prevQ+qi+1} de ${totalQ}</div><div class="qt">${q.t}</div><div class="opts">`;
+    q.o.forEach((o,oi)=>{ h+=`<div class="opt${ans[k]===oi?' sel':''}" onclick="pick('${k}',${oi},this)"><div class="dot"></div><span class="ot">${o.t}</span></div>`; });
+    h+=`</div></div>`;
+  });
+  h+=`<div class="nav"><button class="btn btn-g" onclick="back()" ${idx===0?'disabled':''}>← Voltar</button>
+    <button class="btn btn-p" id="nb" onclick="${last?'goLead()':'next('+idx+')'}" ${done?'':'disabled'}>${last?'Continuar →':'Próxima seção →'}</button></div></div>`;
+  document.getElementById('sec-wrap').innerHTML=h;
+}
+
+function pick(k,oi,el){
+  ans[k]=oi;
+  el.closest('.qb').querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel'); chk(); prog();
+}
+function chk(){ const d=SECS[cur].q.every((_,qi)=>ans[cur+'-'+qi]!==undefined); const b=document.getElementById('nb'); if(b)b.disabled=!d; }
+function next(i){ renderSec(i+1); scrollTo({top:0,behavior:'smooth'}); prog(); }
+function back(){ if(cur>0){ renderSec(cur-1); scrollTo({top:0,behavior:'smooth'}); prog(); } }
+function prog(){
+  const t=SECS.reduce((a,s)=>a+s.q.length,0), d=Object.keys(ans).length, p=Math.round(d/t*100);
+  document.getElementById('prog-fill').style.width=p+'%';
+  document.getElementById('prog-pct').textContent=p+'%';
+  document.getElementById('prog-lbl').textContent=`Seção ${cur+1} de ${SECS.length}`;
+}
+
+function goLead(){ hide('quiz-screen'); hide('prog-wrap'); show('lead-screen'); scrollTo({top:0,behavior:'smooth'}); }
+
+function submitLead(){
+  const nome=document.getElementById('f-nome').value.trim();
+  const empresa=document.getElementById('f-empresa').value.trim();
+  const email=document.getElementById('f-email').value.trim();
+  const cargo=document.getElementById('f-cargo').value.trim();
+  const tel=document.getElementById('f-tel').value.trim();
+  if(!nome||!empresa||!email){ toast('⚠️ Por favor, preencha nome, empresa e e-mail.'); return; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ toast('⚠️ Informe um e-mail válido.'); return; }
+  lead={nome,empresa,email,cargo,tel};
+  hide('lead-screen'); showResult();
+}
+
+function calcScores(){
+  return SECS.map((s,si)=>{
+    let sc=0,mx=0;
+    s.q.forEach((q,qi)=>{ mx+=Math.max(...q.o.map(o=>o.s)); const a=ans[si+'-'+qi]; if(a!==undefined)sc+=q.o[a].s; });
+    return{sc,mx,p:mx>0?Math.round(sc/mx*100):0};
+  });
+}
+function lvlInfo(p){
+  if(p<=30)return{l:'Inicial',c:'#A30000',d:'Sua organização está nos estágios iniciais de maturidade em segurança para IA. Existem lacunas significativas que precisam ser endereçadas antes de uma adoção segura em escala.'};
+  if(p<=65)return{l:'Em Desenvolvimento',c:'#FF9700',d:'Sua organização já deu os primeiros passos importantes, mas ainda há oportunidades de fortalecer controles, automação e governança para ambientes com IA.'};
+  return{l:'Avançado',c:'#7B851C',d:'Parabéns! Sua organização demonstra alto nível de maturidade em segurança para IA, com controles robustos, automação e governança bem estabelecidos.'};
+}
+function buildRecs(scores){
+  const out=[];
+  scores.forEach((s,i)=>{ if(s.p<70)out.push({i:RM[i].i,c:RM[i].c,t:s.p<40?RM[i].l:RM[i].m}); });
+  if(!out.length)out.push({i:'⭐',c:'Excelente desempenho',t:'Sua organização está bem posicionada. Explore Microsoft Security Copilot e automação de resposta a incidentes com IA para continuar evoluindo.'});
+  return out.slice(0,4);
+}
+
+function showResult(){
+  const rs=document.getElementById('result-screen'); rs.style.display='block';
+  scrollTo({top:0,behavior:'smooth'});
+  const scores=calcScores();
+  const tp=Math.round(scores.reduce((a,s)=>a+s.sc,0)/scores.reduce((a,s)=>a+s.mx,0)*100);
+  const lv=lvlInfo(tp);
+
+  document.getElementById('res-top').innerHTML=`
+    <div class="badge-row">
+      <div class="badge" style="color:${lv.c};"><span class="badge-num">${tp}%</span><span class="badge-lbl">maturidade</span></div>
+      <div>
+        <div class="r-level" style="color:${lv.c};">Nível ${lv.l}</div>
+        <div class="r-who">${lead.nome||''} ${lead.empresa?'— '+lead.empresa:''}</div>
+        <div class="r-desc">${lv.d}</div>
+      </div>
+    </div>`;
+
+  let bd=`<div class="bd-title">Resultado por categoria</div>`;
+  scores.forEach((s,i)=>{ bd+=`<div class="bd"><div class="bd-row"><span class="bd-n">${SECS[i].i} ${SECS[i].t}</span><span class="bd-p">${s.p}%</span></div><div class="bd-bar"><div class="bd-fill" style="width:0%;background:${BC[i]};" data-w="${s.p}%"></div></div></div>`; });
+  document.getElementById('breakdown').innerHTML=bd;
+  setTimeout(()=>document.querySelectorAll('.bd-fill').forEach(e=>e.style.width=e.dataset.w),120);
+
+  const recs=buildRecs(scores);
+  let rh=`<div class="recs-hd"><h3>📌 Recomendações prioritárias</h3></div>`;
+  recs.forEach(r=>{ rh+=`<div class="rec"><div class="rec-i">${r.i}</div><div><div class="rec-cat">${r.c}</div><div class="rec-txt">${r.t}</div></div></div>`; });
+  document.getElementById('recs-card').innerHTML=rh;
+
+  sendEmails(scores,tp,lv.l,recs);
+}
+
+function sendEmails(scores,tp,lbl,recs){
+  if(!EJ_READY){ console.info('[EmailJS] Configure as variáveis EJ_* no topo do arquivo.'); return; }
+  const bd=scores.map((s,i)=>`${SECS[i].t}: ${s.p}%`).join(' | ');
+  const rt=recs.map(r=>`${r.c}: ${r.t}`).join('\n\n');
+  const now=new Date().toLocaleString('pt-BR');
+  const base={ nome:lead.nome||'—', empresa:lead.empresa||'—', email:lead.email||'—', cargo:lead.cargo||'—', tel:lead.tel||'—', nivel:lbl, pontuacao:tp+'%', breakdown:bd, recomendacoes:rt, data:now };
+  emailjs.send(EJ_SERVICE_ID,EJ_TPL_LEAD,{...base,to_email:lead.email})
+    .then(()=>toast('✅ Resultado enviado para '+lead.email))
+    .catch(e=>console.warn('[EmailJS] lead:',e));
+  emailjs.send(EJ_SERVICE_ID,EJ_TPL_PHS,{...base,to_email:'comercial@phsbrasil.com.br'})
+    .catch(e=>console.warn('[EmailJS] PHS:',e));
+}
+
+function exportPDF(){
+  const scores=calcScores();
+  const tp=Math.round(scores.reduce((a,s)=>a+s.sc,0)/scores.reduce((a,s)=>a+s.mx,0)*100);
+  const lv=lvlInfo(tp), recs=buildRecs(scores);
+  const now=new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
+  const html=`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Ubuntu:wght@300;400;500&display=swap" rel="stylesheet">
+<style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Ubuntu',sans-serif;color:#141F29;background:#fff;padding:36px 40px;}
+.hdr{background:#141F29;padding:24px 28px;border-radius:10px;margin-bottom:20px;position:relative;overflow:hidden;}
+.hdr::after{content:'';position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;background:rgba(49,108,158,.14);}
+.acc{height:3px;background:linear-gradient(90deg,#FF9700,#316C9E,transparent);border-radius:0 0 10px 10px;}
+.brand{font-family:'Poppins',sans-serif;font-size:16px;font-weight:800;color:#fff;letter-spacing:.05em;}
+.bsub{font-size:8px;color:rgba(255,255,255,.42);letter-spacing:.13em;text-transform:uppercase;margin-bottom:12px;}
+h1{font-family:'Poppins',sans-serif;font-size:19px;font-weight:800;color:#fff;position:relative;z-index:1;}
+.htag{font-size:9px;font-weight:600;color:#FF9700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:6px;}
+.meta{display:flex;gap:18px;margin-top:8px;flex-wrap:wrap;}
+.mi{font-size:11px;color:rgba(255,255,255,.52);}
+.sc-wrap{display:flex;align-items:center;gap:16px;background:#F2F3F5;border-radius:10px;padding:16px 20px;margin-bottom:16px;border:1px solid #E2E4E8;}
+.circle{width:68px;height:68px;border-radius:50%;border:3px solid ${lv.c};display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;}
+.cn{font-family:'Poppins',sans-serif;font-size:21px;font-weight:800;color:${lv.c};line-height:1;}
+.cl{font-size:9px;color:${lv.c};opacity:.7;}
+.lvl{font-family:'Poppins',sans-serif;font-size:16px;font-weight:800;color:${lv.c};margin-bottom:4px;}
+.ld{font-size:12px;color:#5A6478;line-height:1.65;font-weight:300;}
+h2{font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:#5A6478;letter-spacing:.07em;text-transform:uppercase;margin-bottom:12px;}
+.sec{margin-bottom:18px;}.bdi{margin-bottom:10px;}
+.bdr{display:flex;justify-content:space-between;margin-bottom:4px;}
+.bdn{font-size:13px;font-weight:500;}.bdp{font-size:11px;font-weight:700;color:#5A6478;font-family:'Poppins',sans-serif;}
+.bar{height:7px;background:#E2E4E8;border-radius:99px;overflow:hidden;}
+.bfill{height:100%;border-radius:99px;}
+.ri{display:flex;gap:11px;padding:11px 0;border-bottom:1px solid #E2E4E8;}
+.ri:last-child{border-bottom:none;}
+.rcat{font-size:9px;font-weight:700;color:#316C9E;text-transform:uppercase;letter-spacing:.07em;font-family:'Poppins',sans-serif;margin-bottom:3px;}
+.rtxt{font-size:12px;color:#141F29;line-height:1.6;}
+.foot{margin-top:26px;padding-top:13px;border-top:1px solid #E2E4E8;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:8px;}
+.fl{font-family:'Poppins',sans-serif;font-size:13px;font-weight:800;}
+.fc{font-size:10px;color:#5A6478;text-align:right;line-height:1.7;}
+</style></head><body>
+<div class="hdr">
+  <div class="brand">PHS BRASIL</div><div class="bsub">Consultoria em Informática · Microsoft Solutions Partner</div>
+  <div class="htag">🛡️ Avaliação de Segurança para IA</div>
+  <h1>Relatório de Maturidade</h1>
+  <div class="meta"><div class="mi">👤 ${lead.nome||'—'}</div><div class="mi">🏢 ${lead.empresa||'—'}</div>${lead.cargo?`<div class="mi">💼 ${lead.cargo}</div>`:''}<div class="mi">📅 ${now}</div></div>
+</div><div class="acc"></div>
+<div class="sc-wrap"><div class="circle"><span class="cn">${tp}%</span><span class="cl">maturidade</span></div><div><div class="lvl">Nível ${lv.l}</div><div class="ld">${lv.d}</div></div></div>
+<div class="sec"><h2>Resultado por Categoria</h2>
+${scores.map((s,i)=>`<div class="bdi"><div class="bdr"><span class="bdn">${SECS[i].i} ${SECS[i].t}</span><span class="bdp">${s.p}%</span></div><div class="bar"><div class="bfill" style="width:${s.p}%;background:${BC[i]};"></div></div></div>`).join('')}
+</div>
+<div class="sec"><h2>Recomendações Prioritárias</h2>
+${recs.map(r=>`<div class="ri"><div style="font-size:15px;flex-shrink:0;margin-top:2px;">${r.i}</div><div><div class="rcat">${r.c}</div><div class="rtxt">${r.t}</div></div></div>`).join('')}
+</div>
+<div class="foot">
+  <div><div class="fl">PHS BRASIL</div><div style="font-size:11px;color:#5A6478;">Consultoria em Informática</div></div>
+  <div class="fc">(11) 3945-1934 · comercial@phsbrasil.com.br<br>Av. Paulista, 1765 Cj. 71/72 · Bela Vista · São Paulo-SP<br>www.phsbrasil.com.br</div>
+</div></body></html>`;
+  const w=window.open('','_blank'); w.document.write(html); w.document.close(); setTimeout(()=>{w.focus();w.print();},900);
+}
+</script>
+</body>
+</html>
