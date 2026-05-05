@@ -502,17 +502,47 @@ function showResult(){
   sendEmails(scores,tp,lv.l,recs);
 }
 
-function sendEmails(scores,tp,lbl,recs){
-  if(!EJ_READY){ console.info('[EmailJS] Configure as variáveis EJ_* no topo do arquivo.'); return; }
-  const bd=scores.map((s,i)=>`${SECS[i].t}: ${s.p}%`).join(' | ');
-  const rt=recs.map(r=>`${r.c}: ${r.t}`).join('\n\n');
-  const now=new Date().toLocaleString('pt-BR');
-  const base={ nome:lead.nome||'—', empresa:lead.empresa||'—', email:lead.email||'—', cargo:lead.cargo||'—', tel:lead.tel||'—', nivel:lbl, pontuacao:tp+'%', breakdown:bd, recomendacoes:rt, data:now };
-  emailjs.send(EJ_SERVICE_ID,EJ_TPL_LEAD,{...base,to_email:lead.email})
-    .then(()=>toast('✅ Resultado enviado para '+lead.email))
-    .catch(e=>console.warn('[EmailJS] lead:',e));
-  emailjs.send(EJ_SERVICE_ID,EJ_TPL_PHS,{...base,to_email:'comercial@phsbrasil.com.br'})
-    .catch(e=>console.warn('[EmailJS] PHS:',e));
+function sendEmails(scores, tp, lbl, recs) {
+  if (!EJ_READY) {
+    console.warn('[EmailJS] Variáveis não configuradas no topo do arquivo.');
+    return;
+  }
+
+  const bd = scores.map((s, i) => `${SECS[i].t}: ${s.p}%`).join(' | ');
+  const rt = recs.map(r => `${r.c}: ${r.t}`).join('\n\n');
+  const now = new Date().toLocaleString('pt-BR');
+
+  // Objeto com todos os dados que os templates precisam
+  const templateParams = {
+    nome: lead.nome || '—',
+    empresa: lead.empresa || '—',
+    email: lead.email || '—',
+    cargo: lead.cargo || '—',
+    tel: lead.tel || '—',
+    nivel: lbl,
+    pontuacao: tp + '%',
+    breakdown: bd,
+    recomendacoes: rt,
+    data: now,
+    to_email: lead.email // Usado apenas no template do Lead
+  };
+
+  // 1. Envia para o LEAD (Cliente)
+  emailjs.send(EJ_SERVICE_ID, EJ_TPL_LEAD, templateParams)
+    .then(() => {
+      toast('✅ Resultado enviado para ' + lead.email);
+      
+      // 2. Envia para a PHS BRASIL (Notificação Interna) 
+      // Só dispara após o sucesso do primeiro para evitar gargalo
+      return emailjs.send(EJ_SERVICE_ID, EJ_TPL_PHS, templateParams);
+    })
+    .then(() => {
+      console.log('✅ Notificação interna enviada com sucesso!');
+    })
+    .catch(error => {
+      console.error('❌ Erro no envio do EmailJS:', error);
+      toast('⚠️ Erro ao enviar e-mail. Verifique o console.');
+    });
 }
 
 function exportPDF(){
