@@ -534,7 +534,7 @@ function sendEmails(scores, tp, lbl, recs) {
       
       // 2. Envia para a PHS BRASIL (Notificação Interna) 
       // Só dispara após o sucesso do primeiro para evitar gargalo
-      return emailjs.send(EJ_SERVICE_ID, EJ_TPL_PHS, templateParams);
+      return emailjs.send(service_3toxqva, EJ_TPL_PHS, templateParams);
     })
     .then(() => {
       console.log('✅ Notificação interna enviada com sucesso!');
